@@ -35,6 +35,8 @@ class MapViz(object):
         :param height: The CSS height of the HTML map div in % or pixels.
         :param zoom: starting zoom level for map
         :param opacity: opacity of map data layer
+        :param min_zoom: Minimum zoom for a layer (viz) to be visible
+        :param max_zoom: Maximum zoom for a layer (viz) to be visible
 
         """
         if access_token is None:
