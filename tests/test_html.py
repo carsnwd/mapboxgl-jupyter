@@ -116,6 +116,9 @@ def test_display_ClusteredCircleViz(display, data):
 
 @patch('mapboxgl.viz.display')
 def test_min_zoom(display, data):
+    """Assert that given a min zoom, the map layer follows the properties of min zoom
+    and does not display unless min zoom is achieved
+    """
     viz = GraduatedCircleViz(data,
                              color_property="Avg Medicare Payments",
                              label_property="Avg Medicare Payments",
@@ -127,6 +130,9 @@ def test_min_zoom(display, data):
 
 @patch('mapboxgl.viz.display')
 def test_max_zoom(display, data):
+    """Assert that given a max zoom, the map layer follows the properties of max zoom
+    and does not display unless max zoom is achieved
+    """
     viz = HeatmapViz(data,
                      weight_property="Avg Medicare Payments",
                      weight_stops=[[10, 0], [100, 1]],
