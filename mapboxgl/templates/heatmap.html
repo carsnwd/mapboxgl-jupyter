@@ -1,33 +1,12 @@
 {% extends "main.html" %}
 
-{% block javascript %}
-mapboxgl.accessToken = '{{ accessToken }}';
+{% block navigation %}
+    //Navigation for heatmap layer
+    document.getElementById('legend').style.visibility = 'hidden';
+{% endblock %}
 
-var map = new mapboxgl.Map({
-    container: 'map',
-    style: '{{ styleUrl }}', 
-    center: {{ center }},
-    zoom: {{ zoom }},
-    transformRequest: (url, resourceType)=> {
-        if ( url.slice(0,22) == 'https://api.mapbox.com' ) {
-            //Add Python Plugin identifier for Mapbox API traffic
-            return {
-               url: [url.slice(0, url.indexOf("?")+1), "pluginName=PythonMapboxgl&", url.slice(url.indexOf("?")+1)].join('')
-             }
-         }
-         else {
-             //Do not transform URL for non Mapbox GET requests
-             return {url: url}
-         }
-    }
-});
-
-map.addControl(new mapboxgl.NavigationControl());
-
-document.getElementById('legend').style.visibility = 'hidden';
-
-map.on('style.load', function() {
-
+{% block layers %}
+    //Heatmap layer
     map.addSource("data", {
         "type": "geojson",
         "data": {{ geojson_data }}, //data from dataframe output to geojson
@@ -48,7 +27,4 @@ map.on('style.load', function() {
             "heatmap-opacity" : {{ opacity }}
         }
     }, "{{belowLayer}}" );
-
-});
-
 {% endblock %}

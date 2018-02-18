@@ -1,27 +1,13 @@
 {% extends "main.html" %}
 
-{% block javascript %}
-var legend = document.getElementById('legend');
-legend.remove();
+{% block navigation %}
+    //Navigation for base layer
+    var legend = document.getElementById('legend');
+    legend.remove();
+{% endblock %}
 
-mapboxgl.accessToken = '{{ accessToken }}';
-
-var map = new mapboxgl.Map({
-    container: 'map',
-    style: '{{ styleUrl }}', 
-    center: {{ center }},
-    zoom: {{ zoom }},
-    transformRequest: (url, resourceType)=> {
-        return {
-           url: [url.slice(0, url.indexOf("?")+1), "pluginName=PythonMapboxgl&", url.slice(url.indexOf("?")+1)].join('')
-         }
-    }
-});
-
-map.addControl(new mapboxgl.NavigationControl());
-
-map.on('style.load', function() {
-    
+{% block layers %}
+    //Base layer
     // Add data source
     map.addSource("data", {
         "type": "geojson",
@@ -39,6 +25,4 @@ map.on('style.load', function() {
         "minzoom": {{ minzoom }},
         "paint": {"circle-radius": 1}
     });
-
-});
 {% endblock %}

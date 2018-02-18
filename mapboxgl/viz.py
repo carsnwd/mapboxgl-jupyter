@@ -23,7 +23,8 @@ class MapViz(object):
                  width='100%',
                  zoom=0,
                  min_zoom=0,
-                 max_zoom=24):
+                 max_zoom=24,
+                 child_layers=[]):
         """Construct a MapViz object
 
         :param data: GeoJSON Feature Collection
@@ -37,7 +38,7 @@ class MapViz(object):
         :param opacity: opacity of map data layer
         :param min_zoom: Minimum zoom for a layer (viz) to be visible
         :param max_zoom: Maximum zoom for a layer (viz) to be visible
-
+        :param child_layers: Child map viz layers to be added in addition
         """
         if access_token is None:
             access_token = os.environ.get('MAPBOX_ACCESS_TOKEN', '')
@@ -58,6 +59,7 @@ class MapViz(object):
         self.label_property = None
         self.min_zoom = min_zoom
         self.max_zoom = max_zoom
+        self.child_layers = child_layers
 
     def as_iframe(self, html_data):
         """Build the HTML representation for the mapviz."""
@@ -81,6 +83,9 @@ class MapViz(object):
     def add_unique_template_variables(self, options):
         pass
 
+    def add_child_layer(self, child_layer):
+        self.child_layers.append(child_layer)
+
     def create_html(self):
         """Create a circle visual from a geojson data source"""
         options = dict(
@@ -94,7 +99,8 @@ class MapViz(object):
             belowLayer=self.below_layer,
             opacity=self.opacity,
             minzoom=self.min_zoom,
-            maxzoom=self.max_zoom)
+            maxzoom=self.max_zoom,
+            child_layers=self.child_layers)
 
         if self.label_property is None:
             options.update(labelProperty=None)

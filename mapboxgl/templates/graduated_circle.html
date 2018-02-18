@@ -1,34 +1,12 @@
 {% extends "main.html" %}
 
-{% block javascript %}
-mapboxgl.accessToken = '{{ accessToken }}';
-
-var map = new mapboxgl.Map({
-    container: 'map',
-    style: '{{ styleUrl }}', 
-    center: {{ center }},
-    zoom: {{ zoom }},
-    transformRequest: (url, resourceType)=> {
-        if ( url.slice(0,22) == 'https://api.mapbox.com' ) {
-            //Add Python Plugin identifier for Mapbox API traffic
-            return {
-               url: [url.slice(0, url.indexOf("?")+1), "pluginName=PythonMapboxgl&", url.slice(url.indexOf("?")+1)].join('')
-             }
-         }
-         else {
-             //Do not transform URL for non Mapbox GET requests
-             return {url: url}
-         }
-    }
-});
-
-map.addControl(new mapboxgl.NavigationControl());
+{% block navigation %}
+    //Navigation for Graduated Circle Layer
+    calcCircleColorLegend({{ colorStops }}, "{{ colorProperty }} vs. {{ radiusProperty }}");
+{% endblock %}
     
-calcCircleColorLegend({{ colorStops }}, "{{ colorProperty }} vs. {{ radiusProperty }}");
-
-map.on('style.load', function() {
-    
-
+{% block layers %}
+    //Graduated Circle Layer
     map.addSource("data", {
         "type": "geojson",
         "data": {{ geojson_data }}, //data from dataframe output to geojson
@@ -106,6 +84,4 @@ map.on('style.load', function() {
             zoom: map.getZoom() + 1
         });
     });
-});
-
 {% endblock %}

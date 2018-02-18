@@ -75,7 +75,7 @@ function calcCircleColorLegend(myColorStops, title) {
             item.appendChild(key);
             item.appendChild(value);
             legend.appendChild(item);
-            
+
             data = document.getElementById('legend-points-value-' + p)
             data.textContent = myColorStops[p][0];
         }
@@ -108,7 +108,7 @@ function generateMatchExpression(propertyValue, stops, defaultValue) {
         expression.push(stops[i][0], stops[i][1])
     }
     expression.push(defaultValue)
-    
+
     return expression
 }
 
@@ -130,7 +130,34 @@ function generatePropertyExpression(expressionType, propertyValue, stops, defaul
 
 <!-- main map creation code, extended by mapboxgl/templates/{{ viz }}.html -->
 <script type="text/javascript">
-{% block javascript %}{% endblock %}
+    mapboxgl.accessToken = '{{ accessToken }}';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: '{{ styleUrl }}',
+        center: {{ center }},
+        zoom: {{ zoom }},
+        transformRequest: (url, resourceType)=> {
+            if ( url.slice(0,22) == 'https://api.mapbox.com' ) {
+                //Add Python Plugin identifier for Mapbox API traffic
+                return {
+                   url: [url.slice(0, url.indexOf("?")+1), "pluginName=PythonMapboxgl&", url.slice(url.indexOf("?")+1)].join('')
+                 }
+             }
+             else {
+                 //Do not transform URL for non Mapbox GET requests
+                 return {url: url}
+             }
+        }
+    });
+
+    map.addControl(new mapboxgl.NavigationControl());
+
+    //Navigation for each layer added to base map
+    {% block navigation %}{% endblock %}
+    map.on('style.load', function()){
+        //Layers added to each base map
+        {% block layers %}{% endblock %}
+    });
 </script>
 
 </body>
