@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends parent_template %}
 
 {% block navigation %}
     //Navigation for base layer
@@ -9,7 +9,7 @@
 {% block layers %}
     //Base layer
     // Add data source
-    map.addSource("data", {
+    map.addSource("{{ layer_id }}-data", {
         "type": "geojson",
         "data": {{ geojson_data }},
         "buffer": 1,
@@ -19,7 +19,7 @@
     // Add data layer
     map.addLayer({
         "id": "circle",
-        "source": "data",
+        "source": "{{ layer_id }}-data",
         "type": "circle",
         "maxzoom": {{ maxzoom }},
         "minzoom": {{ minzoom }},

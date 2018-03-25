@@ -1,3 +1,4 @@
+{% block upper_main_block %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,14 +152,24 @@ function generatePropertyExpression(expressionType, propertyValue, stops, defaul
     });
 
     map.addControl(new mapboxgl.NavigationControl());
-
     //Navigation for each layer added to base map
-    {% block navigation %}{% endblock %}
-    map.on('style.load', function()){
+{% endblock %}
+    {% block navigation %}//Navigation block
+    {% endblock %}
+{% block middle_main_block %}
+    map.on('style.load', function(){
         //Layers added to each base map
+{% endblock %}
         {% block layers %}{% endblock %}
+        {% if is_parent %} //Checks if it is a parent, thus it has children layers
+            {% for c in child_layers %}
+                <div class="child_layer">{{ c.show()|safe }}</div>
+            {% endfor %}
+        {% endif %}
+{% block lower_main_block %}
     });
 </script>
 
 </body>
 </html>
+{% endblock %}

@@ -24,6 +24,10 @@ class MapViz(object):
                  zoom=0,
                  min_zoom=0,
                  max_zoom=24,
+                 layer_id=None,
+                 is_child=False,
+                 is_parent=True,
+                 parent="main.html",
                  child_layers=[]):
         """Construct a MapViz object
 
@@ -39,6 +43,9 @@ class MapViz(object):
         :param min_zoom: Minimum zoom for a layer (viz) to be visible
         :param max_zoom: Maximum zoom for a layer (viz) to be visible
         :param child_layers: Child map viz layers to be added in addition
+        :param layer_id: Id for the layer, so in cases of multiple layers, can differentiate between them for things
+        like data in their templates
+        :param parent: Parent viz to this viz when supporting multiple layers
         """
         if access_token is None:
             access_token = os.environ.get('MAPBOX_ACCESS_TOKEN', '')
@@ -59,6 +66,10 @@ class MapViz(object):
         self.label_property = None
         self.min_zoom = min_zoom
         self.max_zoom = max_zoom
+        self.layer_id = layer_id
+        self.is_child = is_child
+        self.is_parent = is_parent
+        self.parent = parent
         self.child_layers = child_layers
 
     def as_iframe(self, html_data):
@@ -73,21 +84,51 @@ class MapViz(object):
                     height=self.height))
 
     def show(self, **kwargs):
-        # Load the HTML iframe
+        """Load the HTML iframe"""
+
+        """If the layer has a parent/child relationship and is not the only layer
+        on the map, it requires each layer a id to differentiate between each.
+        """
+        if self.layer_id is None:
+            if self.is_parent or self.is_child:
+                raise ValueError('Child layers exist but the layer_id param was not set.')
+            else:
+                #Otherwise, there is only one layer so the name is irrelevant as there is only one set of data
+                self.layer_id = "layer_id"
+
         html = self.create_html(**kwargs)
         map_html = self.as_iframe(html)
-
         # Display the iframe in the current jupyter notebook view
-        display(HTML(map_html))
+        if self.is_parent:
+            return display(HTML(map_html))
+        else:
+            return html
+
+    def check_is_parent(self):
+        """Returns if the layer is or isn't a parent layer (it has child layers)"""
+        if len(self.child_layers) > 0:
+            return True
+        return False
 
     def add_unique_template_variables(self, options):
         pass
 
     def add_child_layer(self, child_layer):
+        child_layer.is_child = True
+        child_layer.is_parent = False
+        child_layer.child_layers = []
         self.child_layers.append(child_layer)
+
 
     def create_html(self):
         """Create a circle visual from a geojson data source"""
+
+        # #If it has child layers, make it a parent for multi-layer viz support
+        self.is_parent = self.check_is_parent()
+        # if self.is_parent:
+        #     for index, child in enumerate(self.child_layers):
+        #         self.child_layers[index] = child.create_html()
+
         options = dict(
             gl_js_version=GL_JS_VERSION,
             accessToken=self.access_token,
@@ -100,6 +141,10 @@ class MapViz(object):
             opacity=self.opacity,
             minzoom=self.min_zoom,
             maxzoom=self.max_zoom,
+            layer_id=self.layer_id,
+            is_parent=self.is_parent,
+            is_child=self.is_child,
+            parent=self.parent,
             child_layers=self.child_layers)
 
         if self.label_property is None:
@@ -109,7 +154,8 @@ class MapViz(object):
 
         self.add_unique_template_variables(options)
 
-        return templates.format(self.template, **options)
+        template = templates.format(self.template, self.parent, **options)
+        return template
 
 
 class CircleViz(MapViz):

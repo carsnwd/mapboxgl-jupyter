@@ -16,132 +16,132 @@ def data():
 TOKEN = 'pk.abc123'
 
 
-# def test_secret_key_CircleViz(data):
-#     """Secret key raises a token error
-#     """
-#     secret = 'sk.abc123'
-#     with pytest.raises(TokenError):
-#         CircleViz(data, access_token=secret)
-#
-#
-# def test_secret_key_GraduatedCircleViz(data):
-#     """Secret key raises a token error
-#     """
-#     secret = 'sk.abc123'
-#     with pytest.raises(TokenError):
-#         GraduatedCircleViz(data, access_token=secret)
-#
-#
-# def test_token_env_CircleViz(monkeypatch, data):
-#     """Viz can get token from environment if not specified
-#     """
-#     monkeypatch.setenv('MAPBOX_ACCESS_TOKEN', TOKEN)
-#     viz = CircleViz(data, color_property="Avg Medicare Payments")
-#     assert TOKEN in viz.create_html()
-#
-#
-# def test_html_color(data):
-#     viz = CircleViz(data,
-#                     color_property="Avg Medicare Payments",
-#                     access_token=TOKEN)
-#     assert "<html>" in viz.create_html()
-#
-#
-# def test_html_GraduatedCricleViz(data):
-#     viz = GraduatedCircleViz(data,
-#                              color_property="Avg Medicare Payments",
-#                              radius_property="Avg Covered Charges",
-#                              access_token=TOKEN)
-#     assert "<html>" in viz.create_html()
-#
-#
-# def test_token_env_GraduatedCircleViz(monkeypatch, data):
-#     """Viz can get token from environment if not specified
-#     """
-#     monkeypatch.setenv('MAPBOX_ACCESS_TOKEN', TOKEN)
-#     viz = GraduatedCircleViz(data,
-#                              color_property="Avg Medicare Payments",
-#                              radius_property="Avg Covered Charges")
-#     assert TOKEN in viz.create_html()
-#
-#
-# @patch('mapboxgl.viz.display')
-# def test_display_CircleViz(display, data):
-#     """Assert that show calls the mocked display function
-#     """
-#     viz = CircleViz(data,
-#                     color_property="Avg Medicare Payments",
-#                     label_property="Avg Medicare Payments",
-#                     access_token=TOKEN)
-#     viz.show()
-#     display.assert_called_once()
-#
-#
-# @patch('mapboxgl.viz.display')
-# def test_display_GraduatedCircleViz(display, data):
-#     """Assert that show calls the mocked display function
-#     """
-#     viz = GraduatedCircleViz(data,
-#                              color_property="Avg Medicare Payments",
-#                              label_property="Avg Medicare Payments",
-#                              radius_property="Avg Covered Charges",
-#                              access_token=TOKEN)
-#     viz.show()
-#     display.assert_called_once()
-#
-#
-# @patch('mapboxgl.viz.display')
-# def test_display_HeatmapViz(display, data):
-#     """Assert that show calls the mocked display function
-#     """
-#     viz = HeatmapViz(data,
-#                      weight_property="Avg Medicare Payments",
-#                      weight_stops=[[10, 0], [100, 1]],
-#                      color_stops=[[0, "red"], [0.5, "blue"], [1, "green"]],
-#                      radius_stops=[[0, 1], [12, 30]],
-#                      access_token=TOKEN)
-#     viz.show()
-#     display.assert_called_once()
-#
-# @patch('mapboxgl.viz.display')
-# def test_display_ClusteredCircleViz(display, data):
-#     """Assert that show calls the mocked display function
-#     """
-#     viz = ClusteredCircleViz(data,
-#                      radius_stops=[[10, 0], [100, 1]],
-#                      color_stops=[[0, "red"], [10, "blue"], [1, "green"]],
-#                      access_token=TOKEN)
-#     viz.show()
-#     display.assert_called_once()
-#
-# @patch('mapboxgl.viz.display')
-# def test_min_zoom(display, data):
-#     """Assert that given a min zoom, the map layer follows the properties of min zoom
-#     and does not display unless min zoom is achieved
-#     """
-#     viz = GraduatedCircleViz(data,
-#                              color_property="Avg Medicare Payments",
-#                              label_property="Avg Medicare Payments",
-#                              radius_property="Avg Covered Charges",
-#                              access_token=TOKEN,
-#                              min_zoom=10)
-#     viz.show()
-#     display.assert_called_once()
-#
-# @patch('mapboxgl.viz.display')
-# def test_max_zoom(display, data):
-#     """Assert that given a max zoom, the map layer follows the properties of max zoom
-#     and does not display unless max zoom is achieved
-#     """
-#     viz = HeatmapViz(data,
-#                      weight_property="Avg Medicare Payments",
-#                      weight_stops=[[10, 0], [100, 1]],
-#                      color_stops=[[0, "red"], [0.5, "blue"], [1, "green"]],
-#                      radius_stops=[[0, 1], [12, 30]],
-#                      access_token=TOKEN,
-#                      max_zoom=5)
-#     viz.show()
-#     display.assert_called_once()
+def test_secret_key_CircleViz(data):
+    """Secret key raises a token error
+    """
+    secret = 'sk.abc123'
+    with pytest.raises(TokenError):
+        CircleViz(data, access_token=secret)
+
+
+def test_secret_key_GraduatedCircleViz(data):
+    """Secret key raises a token error
+    """
+    secret = 'sk.abc123'
+    with pytest.raises(TokenError):
+        GraduatedCircleViz(data, access_token=secret)
+
+
+def test_token_env_CircleViz(monkeypatch, data):
+    """Viz can get token from environment if not specified
+    """
+    monkeypatch.setenv('MAPBOX_ACCESS_TOKEN', TOKEN)
+    viz = CircleViz(data, color_property="Avg Medicare Payments")
+    assert TOKEN in viz.create_html()
+
+
+def test_html_color(data):
+    viz = CircleViz(data,
+                    color_property="Avg Medicare Payments",
+                    access_token=TOKEN)
+    assert "<html>" in viz.create_html()
+
+
+def test_html_GraduatedCricleViz(data):
+    viz = GraduatedCircleViz(data,
+                             color_property="Avg Medicare Payments",
+                             radius_property="Avg Covered Charges",
+                             access_token=TOKEN)
+    assert "<html>" in viz.create_html()
+
+
+def test_token_env_GraduatedCircleViz(monkeypatch, data):
+    """Viz can get token from environment if not specified
+    """
+    monkeypatch.setenv('MAPBOX_ACCESS_TOKEN', TOKEN)
+    viz = GraduatedCircleViz(data,
+                             color_property="Avg Medicare Payments",
+                             radius_property="Avg Covered Charges")
+    assert TOKEN in viz.create_html()
+
+
+@patch('mapboxgl.viz.display')
+def test_display_CircleViz(display, data):
+    """Assert that show calls the mocked display function
+    """
+    viz = CircleViz(data,
+                    color_property="Avg Medicare Payments",
+                    label_property="Avg Medicare Payments",
+                    access_token=TOKEN)
+    viz.show()
+    display.assert_called_once()
+
+
+@patch('mapboxgl.viz.display')
+def test_display_GraduatedCircleViz(display, data):
+    """Assert that show calls the mocked display function
+    """
+    viz = GraduatedCircleViz(data,
+                             color_property="Avg Medicare Payments",
+                             label_property="Avg Medicare Payments",
+                             radius_property="Avg Covered Charges",
+                             access_token=TOKEN)
+    viz.show()
+    display.assert_called_once()
+
+
+@patch('mapboxgl.viz.display')
+def test_display_HeatmapViz(display, data):
+    """Assert that show calls the mocked display function
+    """
+    viz = HeatmapViz(data,
+                     weight_property="Avg Medicare Payments",
+                     weight_stops=[[10, 0], [100, 1]],
+                     color_stops=[[0, "red"], [0.5, "blue"], [1, "green"]],
+                     radius_stops=[[0, 1], [12, 30]],
+                     access_token=TOKEN)
+    viz.show()
+    display.assert_called_once()
+
+@patch('mapboxgl.viz.display')
+def test_display_ClusteredCircleViz(display, data):
+    """Assert that show calls the mocked display function
+    """
+    viz = ClusteredCircleViz(data,
+                     radius_stops=[[10, 0], [100, 1]],
+                     color_stops=[[0, "red"], [10, "blue"], [1, "green"]],
+                     access_token=TOKEN)
+    viz.show()
+    display.assert_called_once()
+
+@patch('mapboxgl.viz.display')
+def test_min_zoom(display, data):
+    """Assert that given a min zoom, the map layer follows the properties of min zoom
+    and does not display unless min zoom is achieved
+    """
+    viz = GraduatedCircleViz(data,
+                             color_property="Avg Medicare Payments",
+                             label_property="Avg Medicare Payments",
+                             radius_property="Avg Covered Charges",
+                             access_token=TOKEN,
+                             min_zoom=10)
+    viz.show()
+    display.assert_called_once()
+
+@patch('mapboxgl.viz.display')
+def test_max_zoom(display, data):
+    """Assert that given a max zoom, the map layer follows the properties of max zoom
+    and does not display unless max zoom is achieved
+    """
+    viz = HeatmapViz(data,
+                     weight_property="Avg Medicare Payments",
+                     weight_stops=[[10, 0], [100, 1]],
+                     color_stops=[[0, "red"], [0.5, "blue"], [1, "green"]],
+                     radius_stops=[[0, 1], [12, 30]],
+                     access_token=TOKEN,
+                     max_zoom=5)
+    viz.show()
+    display.assert_called_once()
 
 @patch('mapboxgl.viz.display')
 def test_child_layer_added(display, data):
@@ -152,12 +152,15 @@ def test_child_layer_added(display, data):
                      weight_stops=[[10, 0], [100, 1]],
                      color_stops=[[0, "red"], [0.5, "blue"], [1, "green"]],
                      radius_stops=[[0, 1], [12, 30]],
-                     access_token=TOKEN)
+                     access_token=TOKEN,
+                     layer_name="heatmap")
     child_viz = CircleViz(data,
                     color_property="Avg Medicare Payments",
                     label_property="Avg Medicare Payments",
-                    access_token=TOKEN)
+                    access_token=TOKEN,
+                    layer_name="circle")
     parent_viz.add_child_layer(child_viz)
+    # Assert that the parent has a child layer
     assert len(parent_viz.child_layers) > 0
     parent_viz.show()
     display.assert_called_once()

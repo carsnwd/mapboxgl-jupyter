@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends parent_template %}
 
 {% block navigation %}
     //Navigation for Graduated Circle Layer
@@ -7,7 +7,7 @@
     
 {% block layers %}
     //Graduated Circle Layer
-    map.addSource("data", {
+    map.addSource("{{ layer_id }}-data", {
         "type": "geojson",
         "data": {{ geojson_data }}, //data from dataframe output to geojson
         "buffer": 0,
@@ -15,8 +15,8 @@
     });
 
     map.addLayer({
-        "id": "label",
-        "source": "data",
+        "id": "{{ layer_id }}-label",
+        "source": "{{ layer_id }}-data",
         "type": "symbol",
         "maxzoom": {{ maxzoom }},
         "minzoom": {{ minzoom }},
@@ -34,8 +34,8 @@
     }, "{{belowLayer}}" )
 
     map.addLayer({
-        "id": "circle",
-        "source": "data",
+        "id": "{{ layer_id }}-circle",
+        "source": "{{ layer_id }}-data",
         "type": "circle",
         "maxzoom": {{ maxzoom }},
         "minzoom": {{ minzoom }},

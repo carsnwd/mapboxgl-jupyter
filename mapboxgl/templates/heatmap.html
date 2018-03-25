@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends parent_template %}
 
 {% block navigation %}
     //Navigation for heatmap layer
@@ -7,7 +7,7 @@
 
 {% block layers %}
     //Heatmap layer
-    map.addSource("data", {
+    map.addSource("{{ layer_id }}-data", {
         "type": "geojson",
         "data": {{ geojson_data }}, //data from dataframe output to geojson
         "buffer": 0,
@@ -15,7 +15,7 @@
     });
 
     map.addLayer({
-        "id": "circle",
+        "id": "{{ layer_id }}-circle",
         "source": "data",
         "type": "heatmap",
         "maxzoom": {{ maxzoom }},

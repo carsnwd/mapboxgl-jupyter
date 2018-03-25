@@ -1,4 +1,4 @@
-{% extends "main.html" %}
+{% extends parent_template %}
 
 {% block navigation %}
     //Navigation for circle layer
@@ -7,7 +7,7 @@
 
 {% block layers %}
     //Circle layer
-        map.addSource("data", {
+        map.addSource("{{ layer_id }}-data", {
             "type": "geojson",
             "data": {{ geojson_data }},
             "buffer": 1,
@@ -16,7 +16,7 @@
 
         map.addLayer({
             "id": "label",
-            "source": "data",
+            "source": "{{ layer_id }}-data",
             "type": "symbol",
             "maxzoom": {{ maxzoom }},
             "minzoom": {{ minzoom }},
@@ -35,7 +35,7 @@
 
         map.addLayer({
             "id": "circle",
-            "source": "data",
+            "source": "{{ layer_id }}-data",
             "type": "circle",
             "maxzoom": {{ maxzoom }},
             "minzoom": {{ minzoom }},
